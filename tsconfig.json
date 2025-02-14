@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "target": "es2015",           // Setze das Ziel auf ES2015 oder höher
+        "module": "commonjs",         // Oder das gewünschte Modulformat
+        "strict": true,                // Aktiviert strikte Typprüfung
+        "esModuleInterop": true,       // Ermöglicht den Import von CommonJS-Modulen
+        "skipLibCheck": true,          // Überspringt die Überprüfung von d.ts-Dateien
+        "forceConsistentCasingInFileNames": true,
+        "lib": ["es2015", "dom"]      // Füge die benötigten Bibliotheken hinzu
+    }
+}

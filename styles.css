@@ -1,0 +1,148 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: url('SmartHome3.png') no-repeat center center fixed; /* Hintergrundbild */
+    background-size: cover; /* Bild anpassen */
+    position: relative; /* Für das Overlay */
+    display: flex;
+    flex-direction: column; /* Elemente untereinander anordnen */
+    height: 100vh; /* Höhe des Viewports */
+    margin: 0; /* Kein Margin */
+}
+
+.container {
+    width: 50%;
+    margin: auto;
+    background: rgb(98, 185, 191);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative; /* Damit der Container über dem Overlay ist */
+    z-index: 2; /* Über dem Overlay */
+}
+
+header {
+    width: 100%; /* Header über die gesamte Breite */
+    background-color: rgb(172, 172, 172);
+    padding: 15px;
+    text-align: center;
+    font-size: 55px;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px; /* Abstand nach unten */
+    height: 70px;
+}
+
+.main-container {
+    display: flex; /* Flexbox aktivieren */
+    flex: 1; /* Nimmt den verbleibenden Platz ein */
+}
+
+.overview-container {
+    width: 40vb; /* Breite des Übersichtscontainers */
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+
+
+.fenster-container {
+    background: #e9ecef; /* Heller Hintergrund für den Container */
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    display: flex; /* Verwende Flexbox für die Ausrichtung */
+    justify-content: space-between; /* Verteilt den Platz zwischen den Elementen */
+    align-items: center; /* Zentriert die Elemente vertikal */
+}
+
+.sensor-container {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #e9ecef; /* Leicht abgesetzter Hintergrund */
+    border-radius: 5px;
+}
+
+.sensor-container ul {
+    list-style-type: none; /* Punktierung entfernen */
+    padding: 0; /* Polsterung entfernen */
+}
+
+.sensor-container li {
+    padding: 5px 0; /* Abstand zwischen den Listenelementen */
+}
+
+.fenster-container button {
+    background-color: #22a4a2; /* Türkisfarbener Hintergrund */
+    color: white; /* Weißer Text */
+    border: none; /* Keine Rahmen */
+    border-radius: 10px; /* Runde Ecken */
+    padding: 10px 15px; /* Innenabstand */
+    cursor: pointer; /* Zeigt den Pointer-Cursor an */
+    transition: background-color 0.3s; /* Sanfter Übergang für die Hintergrundfarbe */
+    margin-left: 10px; /* Abstand zwischen den Buttons */
+}
+
+.fenster-container button:first-child {
+    margin-left: 0; /* Entfernt linken Abstand für den ersten Button */
+}
+
+.fenster-container button:hover {
+    background-color: #34495e; /* Dunkelgrauer Hintergrund beim Hover */
+}
+
+
+h1 {
+    font-size: 34px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.raum-liste {
+    margin: 20px 0;
+}
+
+.raum ul {
+    list-style-type: disc; /* Aufzählungszeichen für die Liste */
+    margin: 5px 0 0 20px; /* Abstand nach oben und links */
+    padding: 0; /* Kein Padding */
+}
+
+.raum {
+    background: #e2e2e2;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+/* Neues Styling für Eingabefelder und Buttons */
+.create-room-container,
+.sensor-input-container {
+    margin: 20px 0; /* Abstand oben und unten */
+}
+
+input {
+    padding: 10px; /* Polsterung für Eingabefelder */
+    margin-right: 10px; /* Abstand zwischen den Eingabefeldern und Buttons */
+    border: 1px solid #ccc; /* Rahmenfarbe */
+    border-radius: 5px; /* Abgerundete Ecken */
+    width: 200px; /* Breite der Eingabefelder */
+    font-size: 14px; /* Schriftgröße */
+}
+
+button {
+    padding: 10px 15px; /* Polsterung für die Buttons */
+    border: none; /* Kein Rahmen */
+    border-radius: 5px; /* Abgerundete Ecken */
+    background-color: #22a4a2; /* Blaue Hintergrundfarbe */
+    color: white; /* Schriftfarbe */
+    cursor: pointer; /* Zeiger bei Hover */
+    font-size: 14px; /* Schriftgröße */
+    transition: background-color 0.3s; /* Übergangseffekt */
+}
+
+button:hover {
+    background-color: #0c6a71; /* Dunklere Farbe bei Hover */
+}
