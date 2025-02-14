@@ -8,7 +8,7 @@ body {
     display: flex;
     flex-direction: column; /* Elemente untereinander anordnen */
     height: 100vh; /* Höhe des Viewports */
-    margin: 0; /* Kein Margin */
+    margin-top: 12vh; /* Abstand zum Header, um den Inhalt nicht zu verdecken */
 }
 
 .container {
@@ -31,9 +31,13 @@ header {
     font-weight: bold;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    margin-bottom: 20px; /* Abstand nach unten */
-    height: 70px;
+    position: fixed; /* Header fest positionieren */
+    top: 0; /* An den oberen Rand */
+    left: 0; /* An den linken Rand */
+    z-index: 1000; /* Sicherstellen, dass der Header über anderen Elementen liegt */
+    height: 70px; /* Feste Höhe */
 }
+
 
 .main-container {
     display: flex; /* Flexbox aktivieren */
@@ -47,7 +51,18 @@ header {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     padding: 15px;
 }
-
+.overview-container {
+    width: 300px; /* Feste Breite für den Überblickscontainer */
+    height: 100vh; /* Höhe des Containers auf die volle Bildschirmhöhe setzen */
+    position: fixed; /* Fest positioniert am Rand */
+    top: 10; /* An den oberen Rand */
+    left: 0; /* An den linken Rand */
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    overflow-y: auto; /* Vertikales Scrollen aktivieren */
+}
 
 .fenster-container {
     background: #e9ecef; /* Heller Hintergrund für den Container */
@@ -57,6 +72,10 @@ header {
     display: flex; /* Verwende Flexbox für die Ausrichtung */
     justify-content: space-between; /* Verteilt den Platz zwischen den Elementen */
     align-items: center; /* Zentriert die Elemente vertikal */
+    margin-left: 320px; /* Abstand zum Übersicht-Container */
+    padding: 20px;
+    max-height: calc(100vh - 40px); /* Maximale Höhe für den Raumlistencontainer */
+    overflow-y: auto; /* Vertikales Scrollen aktivieren */
 }
 
 .sensor-container {
