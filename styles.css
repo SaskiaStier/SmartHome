@@ -72,10 +72,9 @@ header {
     display: flex; /* Verwende Flexbox für die Ausrichtung */
     justify-content: space-between; /* Verteilt den Platz zwischen den Elementen */
     align-items: center; /* Zentriert die Elemente vertikal */
-    margin-left: 320px; /* Abstand zum Übersicht-Container */
     padding: 20px;
     max-height: calc(100vh - 40px); /* Maximale Höhe für den Raumlistencontainer */
-    overflow-y: auto; /* Vertikales Scrollen aktivieren */
+    /*overflow-y: auto; /* Vertikales Scrollen aktivieren */
 }
 
 .sensor-container {
