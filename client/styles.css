@@ -13,15 +13,27 @@ body {
 
 .container {
     width: 50%;
-    margin: auto;
+    height: 80%; /* Feste Höhe, um Platz für den Header und den Überblick zu lassen */
+    margin: 0; /* Kein Margin */
     background: rgb(98, 185, 191);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    position: relative; /* Damit der Container über dem Overlay ist */
+    position: fixed; /* Fest positioniert */
+    top: 15%; /* Beginnt 10% vom oberen Rand */
+    left: 50%; /* Zentriert horizontal */
+    transform: translateX(-50%); /* Verschiebt den Container um die Hälfte seiner Breite nach links */
     z-index: 2; /* Über dem Overlay */
 }
 
+.rooms-container {
+    height: calc(80vh - 150px); /* Höhe anpassen, um Platz für andere Elemente zu lassen */
+    overflow-y: auto; /* Scrollen aktivieren */
+    overflow: hidden; 
+    padding: 0px; /* Optional: Innenabstand */
+    border: 1px solid #ccc; /* Optional: Rahmen für den Container */
+    border-radius: 8px; /* Abgerundete Ecken */
+}
 header {
     width: 100%; /* Header über die gesamte Breite */
     background-color: rgb(172, 172, 172);
@@ -45,14 +57,7 @@ header {
 }
 
 .overview-container {
-    width: 40vb; /* Breite des Übersichtscontainers */
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-}
-.overview-container {
-    width: 300px; /* Feste Breite für den Überblickscontainer */
+    width: 19%; /* Feste Breite für den Überblickscontainer */
     height: 100vh; /* Höhe des Containers auf die volle Bildschirmhöhe setzen */
     position: fixed; /* Fest positioniert am Rand */
     top: 10; /* An den oberen Rand */
@@ -62,6 +67,40 @@ header {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     padding: 15px;
     overflow-y: auto; /* Vertikales Scrollen aktivieren */
+}
+
+/* Stil für die Liste der Räume */
+.overview-container ul {
+    list-style-type: none; /* Punkte entfernen */
+    padding: 0; /* Kein Padding */
+    margin: 0; /* Kein Margin */
+}
+
+/* Stil für die Listenelemente */
+.overview-container li {
+    padding: 10px; /* Innenabstand */
+    border-bottom: 1px solid #ccc; /* Trennlinie zwischen den Elementen */
+    transition: background-color 0.3s; /* Übergang für Hover-Effekt */
+    text-align: center; /* Text zentrieren */
+    border-radius: 8px; /* Abgerundete Ecken */
+}
+
+/* Hover-Effekt für die Listenelemente */
+.overview-container li:hover {
+    background-color: rgba(98, 185, 191, 0.2); /* Hintergrundfarbe beim Hover */
+}
+
+/* Stil für den ersten Listeneintrag */
+.overview-container li:first-child {
+    border-top: 1px solid #ccc; /* Trennlinie oben */
+}
+/* Stil für die Überschrift im Übersicht-Container */
+.overview-container h2 {
+    text-align: center; /* Text zentrieren */
+    margin: 3px 0; /* Abstand nach oben und unten */
+    background-color: rgba(63, 165, 174, 0.638); /* Hintergrundfarbe */
+    border-radius: 8px; /* Abgerundete Ecken */
+    padding: 10px; /* Innenabstand */
 }
 
 .fenster-container {
@@ -131,8 +170,10 @@ h1 {
 .raum {
     background: #e2e2e2;
     padding: 10px;
-    margin: 10px 0;
     border-radius: 5px;
+    border: 5px solid #017070; /* Rand hinzufügen */
+    min-height: 93%; /* Mindesthöhe festlegen */
+    height: auto; /* Höhe automatisch anpassen */
 }
 
 /* Neues Styling für Eingabefelder und Buttons */

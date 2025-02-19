@@ -12,12 +12,8 @@ var SmartHome = /** @class */ (function () {
         var temperaturSensoren = []; // Leere Liste
         var temperatur = 23; // Standardtemperatur
         this.raumListe.push({ name: name, fensterSensor: fensterSensor, temperaturSensoren: temperaturSensoren, temperatur: temperatur });
-        this.render();
+        this.render(); // Räume rendern
     };
-    // Methode zum Rendern der Raumliste
-    // Methode zum Rendern der Raumliste
-    // Methode zum Rendern der Raumliste
-    // Methode zum Rendern der Raumliste
     SmartHome.prototype.render = function () {
         var _this = this;
         var raumListeElement = document.getElementById("raumListe");
@@ -50,31 +46,46 @@ var SmartHome = /** @class */ (function () {
             createRoomContainer.appendChild(roomInput_1);
             createRoomContainer.appendChild(createRoomButton);
             raumListeElement.appendChild(createRoomContainer); // Container zum Raumlisten-Element hinzufügen
+            // Neuer Container für alle Räume
+            var roomsContainer_1 = document.createElement("div");
+            roomsContainer_1.className = "rooms-container"; // Klasse für den neuen Container
             // Raumliste rendern
             this.raumListe.forEach(function (raum) {
                 var raumDiv = document.createElement("div");
                 raumDiv.className = "raum";
+                raumDiv.id = raum.name; // ID für den Raum hinzufügen
                 raumDiv.innerHTML = "<strong>".concat(raum.name, "</strong>");
                 raumDiv.dataset.raumName = raum.name; // Raumname als Datenattribut speichern
                 // Container für den Fenstersensor
                 var fensterContainer = document.createElement("div");
                 fensterContainer.className = "fenster-container";
                 fensterContainer.innerHTML = "<strong>".concat(raum.fensterSensor.name, "</strong>");
-                // Buttons für Öffnen und Schließen
-                var openButton = document.createElement("button");
-                openButton.textContent = "Öffnen";
-                openButton.onclick = function () { return alert("".concat(raum.fensterSensor.name, " wurde ge\u00F6ffnet")); };
-                var closeButton = document.createElement("button");
-                closeButton.textContent = "Schließen";
-                closeButton.onclick = function () { return alert("".concat(raum.fensterSensor.name, " wurde geschlossen")); };
-                // Buttons zum Container hinzufügen
-                fensterContainer.appendChild(openButton);
-                fensterContainer.appendChild(closeButton);
-                raumDiv.appendChild(fensterContainer); // Fenstercontainer zum Raum-Container hinzufügen
                 // Aktuelle Temperatur anzeigen
                 var tempDisplay = document.createElement("p");
                 tempDisplay.textContent = "Aktuelle Temperatur: ".concat(raum.temperatur, "\u00B0C");
                 raumDiv.appendChild(tempDisplay);
+                // Vorherige Temperatur speichern
+                var previousTemperature = raum.temperatur;
+                // Buttons für Öffnen und Schließen
+                var openButton = document.createElement("button");
+                openButton.textContent = "Öffnen";
+                openButton.onclick = function () {
+                    previousTemperature = raum.temperatur; // Vorherige Temperatur speichern
+                    raum.temperatur = 15; // Temperatur auf 15 Grad setzen
+                    tempDisplay.textContent = "Aktuelle Temperatur: ".concat(raum.temperatur, "\u00B0C"); // Temperatur aktualisieren
+                    alert("".concat(raum.fensterSensor.name, " wurde ge\u00F6ffnet"));
+                };
+                var closeButton = document.createElement("button");
+                closeButton.textContent = "Schließen";
+                closeButton.onclick = function () {
+                    raum.temperatur = previousTemperature; // Temperatur zurücksetzen
+                    tempDisplay.textContent = "Aktuelle Temperatur: ".concat(raum.temperatur, "\u00B0C"); // Temperatur aktualisieren
+                    alert("".concat(raum.fensterSensor.name, " wurde geschlossen"));
+                };
+                // Buttons zum Container hinzufügen
+                fensterContainer.appendChild(openButton);
+                fensterContainer.appendChild(closeButton);
+                raumDiv.appendChild(fensterContainer); // Fenstercontainer zum Raum-Container hinzufügen
                 // Sensoren als Liste in einem eigenen div hinzufügen
                 var sensorContainer = document.createElement("div");
                 sensorContainer.className = "sensor-container"; // Für CSS-Styling
@@ -142,12 +153,19 @@ var SmartHome = /** @class */ (function () {
                 tempInputContainer.appendChild(tempInput);
                 tempInputContainer.appendChild(setTempButton);
                 raumDiv.appendChild(tempInputContainer); // Temperatur-Input-Container zum Raum-Container hinzufügen
-                raumListeElement.appendChild(raumDiv);
-                // Raum zur Übersicht hinzufügen
+                // Füge den Raum-Container zum roomsContainer hinzu
+                roomsContainer_1.appendChild(raumDiv);
+                // Raum zur Übersichtsliste hinzufügen
                 var roomItem = document.createElement("li");
                 roomItem.textContent = raum.name;
+                roomItem.onclick = function () {
+                    // Scrollen zum entsprechenden Raum
+                    raumDiv.scrollIntoView({ behavior: 'smooth' });
+                };
                 overviewRoomList.appendChild(roomItem); // Raum zur Übersichtsliste hinzufügen
             });
+            // Füge den neuen Container für die Räume zum raumListeElement hinzu
+            raumListeElement.appendChild(roomsContainer_1);
         }
     };
     // Methode zum Hinzufügen eines Temperatursensors
