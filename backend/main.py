@@ -1,15 +1,19 @@
+import os
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
-import os
 
-# Datenbank-URL (wird von docker-compose per Environment-Variable gesetzt)
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://user:password@db:5432/smarthome")
+# Verwende die Universal.db im Ordner "Database"
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./Database/Universal.db")
 
-engine = create_engine(DATABASE_URL)
+# Wichtig: Für SQLite muss check_same_thread auf False gesetzt werden
+engine = create_engine(
+    DATABASE_URL,
+    connect_args={"check_same_thread": False}
+)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
@@ -30,6 +34,7 @@ class Thermostat(Base):
     room_id = Column(Integer, ForeignKey("rooms.id"))
     room = relationship("Room", back_populates="thermostats")
 
+# Erstellt (oder nutzt) die Tabellen in Universal.db
 Base.metadata.create_all(bind=engine)
 
 # --- Schemas ---
@@ -68,53 +73,3 @@ def get_rooms():
     rooms = db.query(Room).all()
     db.close()
     return rooms
-
-@app.post("/rooms/{room_id}/thermostats/", response_model=ThermostatCreate)
-def add_thermostat(room_id: int, thermostat: ThermostatCreate):
-    db = SessionLocal()
-    db_room = db.query(Room).filter(Room.id == room_id).first()
-    if not db_room:
-        db.close()
-        raise HTTPException(status_code=404, detail="Room not found")
-    db_thermostat = Thermostat(
-        name=thermostat.name,
-        current_temperature=thermostat.current_temperature,
-        room_id=room_id
-    )
-    db.add(db_thermostat)
-    db.commit()
-    db.refresh(db_thermostat)
-    db.close()
-    return db_thermostat
-
-@app.post("/rooms/{room_id}/window/")
-def update_window_state(room_id: int, state: str):
-    db = SessionLocal()
-    db_room = db.query(Room).filter(Room.id == room_id).first()
-    if not db_room:
-        db.close()
-        raise HTTPException(status_code=404, detail="Room not found")
-    if state not in ["open", "closed"]:
-        db.close()
-        raise HTTPException(status_code=400, detail="Invalid state")
-    db_room.window_state = state
-    db.commit()
-    db.refresh(db_room)
-    db.close()
-    return {"room_id": room_id, "window_state": state}
-
-@app.post("/rooms/{room_id}/thermostats/{thermostat_id}/update")
-def update_thermostat_temperature(room_id: int, thermostat_id: int, temperature: float):
-    db = SessionLocal()
-    thermostat = db.query(Thermostat).filter(
-        Thermostat.id == thermostat_id,
-        Thermostat.room_id == room_id
-    ).first()
-    if not thermostat:
-        db.close()
-        raise HTTPException(status_code=404, detail="Thermostat not found")
-    thermostat.current_temperature = temperature
-    db.commit()
-    db.refresh(thermostat)
-    db.close()
-    return {"thermostat_id": thermostat_id, "new_temperature": temperature}
