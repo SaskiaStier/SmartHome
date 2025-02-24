@@ -1,0 +1,16 @@
+{
+  "name": "smarthome",
+  "version": "1.0.0",
+  "description": "Smart Home Projekt mit Node.js und Express.",
+  "type": "module", 
+  "scripts": {
+    "start": "node server/server.js", 
+    "build": "tsc"  
+  },
+  "dependencies": {
+    "express": "^4.17.1" 
+  },
+  "devDependencies": {
+    "typescript": "^4.0.0"  
+  }
+}

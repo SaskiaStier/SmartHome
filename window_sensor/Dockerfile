@@ -2,7 +2,7 @@
 FROM node:14
 
 # Arbeitsverzeichnis erstellen
-WORKDIR /usr/src/app1
+WORKDIR /usr/src/window_sensor
 
 # Abhängigkeiten installieren
 COPY package*.json ./
