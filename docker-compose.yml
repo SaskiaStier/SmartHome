@@ -1,28 +1,55 @@
-version: '3.8'
+version: "3.8"
+
 services:
-  web:
-    build: .
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: smarthome
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    depends_on:
+      - db
+    ports:
+      - "8000:80"
+    environment:
+      DATABASE_URL: "postgresql://user:password@db:5432/smarthome"
+
+  server:
+    build: ./server
+    depends_on:
+      - backend
     ports:
       - "3000:3000"
-    depends_on:
-      - window_sensor
-
-  window_sensor:
-    build: .
-    ports:
-      - "4001:4000"
-
-    environment:
-      - SENSOR_INTERVAL=5000
-    volumes:
-      - .:/usr/src/window_sensor
-      - /usr/src/window_sensor/node_modules
 
   thermostat_sensor:
     build: ./thermostat_sensor
+    depends_on:
+      - backend
     ports:
       - "5000:5000"
     environment:
       - SENSOR_INTERVAL=5000
     volumes:
       - ./thermostat_sensor:/usr/src/thermostat_sensor
+
+  window_sensor:
+    build: ./window_sensor
+    depends_on:
+      - backend
+    ports:
+      - "4001:4000"
+    environment:
+      - SENSOR_INTERVAL=5000
+    volumes:
+      - .:/usr/src/window_sensor
+      - /usr/src/window_sensor/node_modules
+
+volumes:
+  postgres_data:
