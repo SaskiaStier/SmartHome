@@ -49,7 +49,6 @@ services:
       - SENSOR_INTERVAL=5000
     volumes:
       - .:/usr/src/window_sensor
-      - /usr/src/window_sensor/node_modules
 
 volumes:
   postgres_data:
