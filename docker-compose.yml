@@ -20,13 +20,15 @@ services:
       - "8000:80"
     environment:
       DATABASE_URL: "postgresql://user:password@db:5432/smarthome"
+    volumes:
+      - //./pipe/docker_engine://./pipe/docker_engine  # Docker Named Pipe einbinden
 
   server:
     build: ./server
     depends_on:
       - backend
     ports:
-      - "3000:3000"
+      - "3001:3000"
 
   thermostat_sensor:
     build: ./thermostat_sensor

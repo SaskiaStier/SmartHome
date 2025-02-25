@@ -1,0 +1,15 @@
+{
+    "name": "smarthome-express",
+    "version": "1.0.0",
+    "description": "Express-Anwendung für Smart Home Projekt",
+    "main": "server.js",
+    "type": "commonjs",
+    "scripts": {
+      "start": "node server.js"
+    },
+    "dependencies": {
+      "express": "^4.17.1"
+    },
+    "devDependencies": {}
+    
+  }
