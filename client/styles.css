@@ -1,6 +1,5 @@
 body {
     font-family: 'Roboto', sans-serif;
-    margin: 0;
     padding: 20px;
     background: url('SmartHome3.png') no-repeat center center fixed; /* Hintergrundbild */
     background-size: cover; /* Bild anpassen */
@@ -8,13 +7,12 @@ body {
     display: flex;
     flex-direction: column; /* Elemente untereinander anordnen */
     height: 100vh; /* Höhe des Viewports */
-    margin-top: 12vh; /* Abstand zum Header, um den Inhalt nicht zu verdecken */
+    margin-top: 11vh; /* Abstand zum Header, um den Inhalt nicht zu verdecken */
 }
 
 .container {
     width: 50%;
     height: 80%; /* Feste Höhe, um Platz für den Header und den Überblick zu lassen */
-    margin: 0; /* Kein Margin */
     background: rgb(98, 185, 191);
     padding: 20px;
     border-radius: 8px;
@@ -30,7 +28,6 @@ body {
     height: calc(80vh - 150px); /* Höhe anpassen, um Platz für andere Elemente zu lassen */
     overflow-y: auto; /* Scrollen aktivieren */
     overflow: hidden; 
-    padding: 0px; /* Optional: Innenabstand */
     border: 1px solid #ccc; /* Optional: Rahmen für den Container */
     border-radius: 8px; /* Abgerundete Ecken */
 }
@@ -40,8 +37,6 @@ header {
     padding: 15px;
     text-align: center;
     font-size: 55px;
-    font-weight: bold;
-    border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     position: fixed; /* Header fest positionieren */
     top: 0; /* An den oberen Rand */
@@ -73,7 +68,6 @@ header {
 .overview-container ul {
     list-style-type: none; /* Punkte entfernen */
     padding: 0; /* Kein Padding */
-    margin: 0; /* Kein Margin */
 }
 
 /* Stil für die Listenelemente */
@@ -105,15 +99,13 @@ header {
 
 .fenster-container {
     background: #e9ecef; /* Heller Hintergrund für den Container */
-    padding: 10px;
-    margin: 10px 0;
+    margin: 5px 0;
     border-radius: 5px;
     display: flex; /* Verwende Flexbox für die Ausrichtung */
     justify-content: space-between; /* Verteilt den Platz zwischen den Elementen */
     align-items: center; /* Zentriert die Elemente vertikal */
-    padding: 20px;
     max-height: calc(100vh - 40px); /* Maximale Höhe für den Raumlistencontainer */
-    /*overflow-y: auto; /* Vertikales Scrollen aktivieren */
+
 }
 
 .sensor-container {
@@ -125,11 +117,11 @@ header {
 
 .sensor-container ul {
     list-style-type: none; /* Punktierung entfernen */
-    padding: 0; /* Polsterung entfernen */
+    
 }
 
 .sensor-container li {
-    padding: 5px 0; /* Abstand zwischen den Listenelementen */
+    margin: 5px 0; /* Abstand zwischen den Listenelementen */
 }
 
 .fenster-container button {
@@ -143,9 +135,6 @@ header {
     margin-left: 10px; /* Abstand zwischen den Buttons */
 }
 
-.fenster-container button:first-child {
-    margin-left: 0; /* Entfernt linken Abstand für den ersten Button */
-}
 
 .fenster-container button:hover {
     background-color: #34495e; /* Dunkelgrauer Hintergrund beim Hover */
@@ -157,6 +146,7 @@ h1 {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
+
 .raum-liste {
     margin: 20px 0;
 }
@@ -164,7 +154,7 @@ h1 {
 .raum ul {
     list-style-type: disc; /* Aufzählungszeichen für die Liste */
     margin: 5px 0 0 20px; /* Abstand nach oben und links */
-    padding: 0; /* Kein Padding */
+
 }
 
 .raum {
@@ -179,15 +169,16 @@ h1 {
 /* Neues Styling für Eingabefelder und Buttons */
 .create-room-container,
 .sensor-input-container {
-    margin: 20px 0; /* Abstand oben und unten */
+    margin: 0px 0; /* Abstand oben und unten */
+    text-align: center;
 }
 
 input {
     padding: 10px; /* Polsterung für Eingabefelder */
-    margin-right: 10px; /* Abstand zwischen den Eingabefeldern und Buttons */
-    border: 1px solid #ccc; /* Rahmenfarbe */
+    margin: 5px; /* Abstand zwischen den Eingabefeldern und Buttons */
+    border: 1px solid #036770; /* Rahmenfarbe */
     border-radius: 5px; /* Abgerundete Ecken */
-    width: 200px; /* Breite der Eingabefelder */
+    width: 45%; /* Breite der Eingabefelder */
     font-size: 14px; /* Schriftgröße */
 }
 
@@ -197,11 +188,16 @@ button {
     border-radius: 5px; /* Abgerundete Ecken */
     background-color: #22a4a2; /* Blaue Hintergrundfarbe */
     color: white; /* Schriftfarbe */
-    cursor: pointer; /* Zeiger bei Hover */
     font-size: 14px; /* Schriftgröße */
     transition: background-color 0.3s; /* Übergangseffekt */
+    margin: 5px;
+    width: 45%;
+    
 }
 
 button:hover {
     background-color: #0c6a71; /* Dunklere Farbe bei Hover */
+}
+.temperature-input-container {
+    text-align: center;         
 }

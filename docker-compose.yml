@@ -21,8 +21,7 @@ services:
     environment:
       DATABASE_URL: "postgresql://user:password@db:5432/smarthome"
     volumes:
-      - //./pipe/docker_engine://./pipe/docker_engine  # Docker Named Pipe einbinden
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock  # Docker-Socket mounten
 
   server:
     build: ./server
@@ -41,7 +40,7 @@ services:
       - "5000:5000"
     environment:
       - SENSOR_INTERVAL=5000
-      - CONTAINER_NAME=thermostat_sensor_name  # Platzhalter für den Namen, wird dynamisch gesetzt
+      - CONTAINER_NAME=thermostat_sensor_name  # Platzhalter für den Namen
 
   window_sensor:
     build: ./window_sensor
@@ -51,7 +50,7 @@ services:
       - "4001:4000"
     environment:
       - SENSOR_INTERVAL=5000
-      - CONTAINER_NAME=window_sensor_name  # Platzhalter für den Namen, wird dynamisch gesetzt
+      - CONTAINER_NAME=window_sensor_name  # Platzhalter für den Namen
 
 volumes:
   postgres_data:  # Definition des Volumes für PostgreSQL-Daten

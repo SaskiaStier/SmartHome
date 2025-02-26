@@ -43,17 +43,18 @@ var SmartHome = /** @class */ (function () {
     // Methode zum Hinzufügen eines Raums
     SmartHome.prototype.addRaum = function (name) {
         return __awaiter(this, void 0, void 0, function () {
-            var temperaturSensoren, temperatur, fensterSensorName, response;
+            var temperaturSensoren, sensor, temperatur, fensterSensorName, response;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        console.log("F\u00FCge Raum hinzu: ".concat(name));
                         temperaturSensoren = [];
+                        sensor = [];
                         temperatur = 23;
-                        this.raumListe.push({ name: name, temperaturSensoren: temperaturSensoren, temperatur: temperatur });
                         fensterSensorName = "fensterkontakt-".concat(name);
                         return [4 /*yield*/, fetch('http://localhost:8000/window_sensors/', {
                                 method: 'POST',
-                                mode: 'no-cors',
+                                mode: 'cors',
                                 headers: {
                                     'Content-Type': 'application/json',
                                 },
@@ -64,6 +65,9 @@ var SmartHome = /** @class */ (function () {
                         if (!response.ok) {
                             alert("Fehler beim Erstellen des Fensterkontakts.");
                         }
+                        console.log("Vor dem Hinzufügen:", this.raumListe);
+                        this.raumListe.push({ name: name, temperaturSensoren: temperaturSensoren, temperatur: temperatur, sensor: sensor });
+                        console.log("Nach dem Hinzufügen:", this.raumListe);
                         this.render();
                         return [2 /*return*/];
                 }
@@ -73,12 +77,12 @@ var SmartHome = /** @class */ (function () {
     // Methode zum Hinzufügen eines Temperatursensors
     SmartHome.prototype.addTemperaturSensor = function (raumName, sensorName, currentTemperature) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, raum;
+            var response, data, raum;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, fetch('http://localhost:8000/thermostats/', {
                             method: 'POST',
-                            mode: 'no-cors',
+                            mode: 'cors',
                             headers: {
                                 'Content-Type': 'application/json',
                             },
@@ -86,25 +90,34 @@ var SmartHome = /** @class */ (function () {
                         })];
                     case 1:
                         response = _a.sent();
-                        if (response.ok) {
-                            raum = this.raumListe.find(function (r) { return r.name === raumName; });
-                            if (raum) {
-                                raum.temperaturSensoren.push(sensorName);
-                                this.render();
-                            }
+                        if (!response.ok) return [3 /*break*/, 3];
+                        return [4 /*yield*/, response.json()];
+                    case 2:
+                        data = _a.sent();
+                        raum = this.raumListe.find(function (r) { return r.name === raumName; });
+                        if (raum) {
+                            raum.temperaturSensoren.push(data.sensor_name); // Den neuen Sensor in die Liste hinzufügen
+                            raum.sensor.push(data.sensor_name); // Optional: Sensor auch in der allgemeinen Sensorliste speichern
+                            this.render(); // Die Ansicht aktualisieren
+                            console.log("sensor gepusht");
                         }
-                        else {
-                            alert("Fehler beim Hinzufügen des Sensors.");
-                        }
-                        return [2 /*return*/];
+                        return [3 /*break*/, 4];
+                    case 3:
+                        alert("Fehler beim Hinzufügen des Sensors.");
+                        _a.label = 4;
+                    case 4: return [2 /*return*/];
                 }
             });
         });
     };
     SmartHome.prototype.render = function () {
         var _this = this;
+        console.log("Rendern");
+        console.log("Render-Methode wird aufgerufen:", this.raumListe);
         var raumListeElement = document.getElementById("raumListe");
         var overviewRoomList = document.getElementById("overviewRoomList");
+        console.log("Rendern");
+        console.log("Render-Methode wird aufgerufen:", this.raumListe);
         if (raumListeElement) {
             raumListeElement.innerHTML = ""; // Liste zurücksetzen
             if (overviewRoomList) {
