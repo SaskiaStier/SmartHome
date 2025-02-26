@@ -15,5 +15,5 @@ app.get('/', function (req, res) {
 
 // Start des Servers
 app.listen(PORT, function () {
-    console.log("Server läuft auf http://localhost:".concat(PORT));
+    console.log("Hauptserver läuft auf http://localhost:".concat(PORT));
 });
