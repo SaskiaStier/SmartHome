@@ -1,18 +1,19 @@
-import express from 'express';
-import path from 'path';
+const express = require('express');
+const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 // Statische Dateien bereitstellen
-app.use(express.static(path.join(__dirname, '../client')));
+app.use(express.static(path.join(__dirname, 'client'))); // Hier den Pfad zu 'client' anpassen
 
 // Route für die Hauptseite
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/index.html'));
+app.get('/', function (req, res) {
+    const indexPath = path.join(__dirname, 'client', 'index.html'); // Hier den Pfad zur index.html anpassen
+    res.sendFile(indexPath);
 });
 
-// Start des Servers
-app.listen(PORT, () => {
-    console.log(`Server läuft auf http://localhost:${3000}`);
+// Server starten
+app.listen(PORT, function () {
+    console.log(`Server läuft auf http://localhost:${PORT}`);
 });

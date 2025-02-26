@@ -4,7 +4,7 @@
   "description": "Smart Home Projekt mit Node.js und Express.",
   "type": "module", 
   "scripts": {
-    "start": "node server.js", 
+    "start": "node server/server.js", 
     "build": "tsc"  
   },
   "dependencies": {

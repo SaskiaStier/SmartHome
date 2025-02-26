@@ -10,6 +10,7 @@ RUN npm install
 # Quellcode kopieren
 COPY . .
 
+
 # Container-Name setzen (optional)
 ARG CONTAINER_NAME
 ENV CONTAINER_NAME=${CONTAINER_NAME}

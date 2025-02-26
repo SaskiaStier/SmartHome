@@ -10,11 +10,14 @@ COPY package*.json ./
 # Installiere die Abhängigkeiten
 RUN npm install
 
+# Client-Verzeichnis kopieren
+#COPY client ./client  
+
 # Kopiere den Rest des Anwendungscodes
 COPY . .
 
 # Exponiere den Port 3001
-EXPOSE 3001
+EXPOSE 3000
 
 # Definiere den Startbefehl
 CMD ["npm", "start"]

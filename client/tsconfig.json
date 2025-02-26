@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "target": "es2015",  // Change from es5 to es2015
+        "lib": [
+            "es2015",
+            "es2016",
+            "es2017",
+            "dom"
+        ],
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true
+    }
+}
