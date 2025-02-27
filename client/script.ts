@@ -14,30 +14,41 @@ class SmartHome {
        this.addRaum("Wohnzimmer");
     }
 
-    // Methode zum Hinzufügen eines Raums
-    async addRaum(name: string): Promise<void> {
-        console.log(`Füge Raum hinzu: ${name}`);
-        const temperaturSensoren: string[] = []; // Initialisieren der Sensorenliste
-        const sensor: string[] = []; // Initialisieren der allgemeinen Sensorenliste
-        const temperatur: number = 23;
-
-        const fensterSensorName = `fensterkontakt-${name}`;
+    async addWindowSensor(raumName: string, sensorName: string): Promise<void> {
         const response = await fetch('http://localhost:8000/window_sensors/', {
             method: 'POST',
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name: fensterSensorName, room_name: name })
+            body: JSON.stringify({ name: sensorName, room_name: raumName })
         });
-
-        if (!response.ok) {
-            alert("Fehler beim Erstellen des Fensterkontakts.");
+    
+        if (response.ok) {
+            const data = await response.json(); // Den Rückgabewert der API abholen
+            const raum = this.raumListe.find(r => r.name === raumName);
+            if (raum) {
+                raum.sensor.push(data.sensor_name); // Den neuen Sensor in die Liste hinzufügen
+                this.render(); // Die Ansicht aktualisieren
+            }
+        } else {
+            alert("Fehler beim Hinzufügen des Fensterkontakts.");
         }
+    }
 
-        console.log("Vor dem Hinzufügen:", this.raumListe);
+
+    // Methode zum Hinzufügen eines Raums
+    async addRaum(name: string): Promise<void> {
+        console.log(`Füge Raum hinzu: ${name}`);
+        const temperaturSensoren: string[] = []; // Initialisieren der Sensorenliste
+        const sensor: string[] = []; // Initialisieren der allgemeinen Sensorenliste
+        const temperatur: number = 23;
+        const fensterSensorName = `fensterkontakt-${name}`;
+        await this.addWindowSensor(name, fensterSensorName);
+      
+        console.log(`Vor dem Hinzufügen:`, this.raumListe);
         this.raumListe.push({ name, temperaturSensoren, temperatur, sensor });
-        console.log("Nach dem Hinzufügen:", this.raumListe);
+        console.log(`Nach dem Hinzufügen:`, this.raumListe);
         this.render();
     }
 
@@ -51,17 +62,18 @@ class SmartHome {
             },
             body: JSON.stringify({ name: sensorName, current_temperature: currentTemperature })
         });
-
+        
         if (response.ok) {
             const data = await response.json(); // Den Rückgabewert der API abholen
-            
             const raum = this.raumListe.find(r => r.name === raumName);
+            
             if (raum) {
                 raum.temperaturSensoren.push(data.sensor_name); // Den neuen Sensor in die Liste hinzufügen
                 raum.sensor.push(data.sensor_name); // Optional: Sensor auch in der allgemeinen Sensorliste speichern
                 this.render(); // Die Ansicht aktualisieren
-                console.log("sensor gepusht");
+        
             }
+           
         } else {
             alert("Fehler beim Hinzufügen des Sensors.");
         }

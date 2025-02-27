@@ -30,8 +30,10 @@ class ThermostatCreate(BaseModel):
 class WindowSensorCreate(BaseModel):
     name: str
     room_name: str
+
+    
 # --- Hilfsfunktionen ---
-def create_container_with_cmd(image_name, container_name, environment, current_temperature=None):
+def create_container_with_cmd(image_name, container_name, environment, current_temperature):
     env_params = ["-e", f"CONTAINER_NAME={container_name}"]
     
     if current_temperature is not None:
@@ -47,6 +49,33 @@ def create_container_with_cmd(image_name, container_name, environment, current_t
         logging.error(f"Fehler bei Befehlsausführung: {e.stderr}")
         print(f"Fehler bei Befehlsausführung: {e.stderr}")  
         return False
+
+def create_window_container(sensor: WindowSensorCreate):
+    # Container-Name formatieren und sicherstellen, dass er gültig ist
+    container_name = f"window_sensor_{sensor.name.replace(' ', '_').replace('ü', 'ue')}_{sensor.room_name.replace(' ', '_').replace('ü', 'ue')}"
+    image_name = "smarthome-window_sensor"  # Setzen Sie hier den richtigen Bildnamen
+
+    logging.info(f"Versuche Container {container_name} zu erstellen")
+
+    # Docker-Befehlsargumente
+    cmd = [
+        "docker", "run", "--name", container_name,
+        "-e", f"CONTAINER_NAME={container_name}",
+        "-e", "CURRENT_TEMPERATURE=23",  # Temperatur festlegen
+        image_name
+    ]
+
+    # Log den Befehl, der ausgeführt werden soll
+    logging.info(f"Auszuführender Befehl: {' '.join(cmd)}")
+
+    try:
+        result = subprocess.run(cmd, check=True, capture_output=True, text=True)
+        logging.info(f"Befehl ausgeführt: {result.stdout}")
+        return True
+    except subprocess.CalledProcessError as e:
+        logging.error(f"Fehler bei Befehlsausführung: {e.stderr}")
+        return False
+      
 
 # --- Endpunkte ---
 @app.post("/thermostats/")
@@ -66,11 +95,7 @@ def create_thermostat(sensor: ThermostatCreate):
 
 @app.post("/window_sensors/")
 def create_window_sensor(sensor: WindowSensorCreate):
-    container_name = f"window_sensor_{sensor.name.replace(' ', '_')}_{sensor.room_name.replace(' ', '_')}"
-    
-    logging.info(f"Versuche Container {container_name} zu erstellen")
-    
-    if create_container_with_cmd("smarthome-window_sensor", container_name, {}):
+    if create_window_container(sensor):
         return {"message": "Fenstersensor-Container erstellt", "sensor_name": sensor.name}
     else:
         raise HTTPException(status_code=500, detail="Fehler beim Erstellen des Fenstersensor-Containers")

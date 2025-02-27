@@ -40,10 +40,43 @@ var SmartHome = /** @class */ (function () {
         this.raumListe = [];
         this.addRaum("Wohnzimmer");
     }
+    SmartHome.prototype.addWindowSensor = function (raumName, sensorName) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, data, raum;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, fetch('http://localhost:8000/window_sensors/', {
+                            method: 'POST',
+                            mode: 'cors',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ name: sensorName, room_name: raumName })
+                        })];
+                    case 1:
+                        response = _a.sent();
+                        if (!response.ok) return [3 /*break*/, 3];
+                        return [4 /*yield*/, response.json()];
+                    case 2:
+                        data = _a.sent();
+                        raum = this.raumListe.find(function (r) { return r.name === raumName; });
+                        if (raum) {
+                            raum.sensor.push(data.sensor_name); // Den neuen Sensor in die Liste hinzufügen
+                            this.render(); // Die Ansicht aktualisieren
+                        }
+                        return [3 /*break*/, 4];
+                    case 3:
+                        alert("Fehler beim Hinzufügen des Fensterkontakts.");
+                        _a.label = 4;
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
     // Methode zum Hinzufügen eines Raums
     SmartHome.prototype.addRaum = function (name) {
         return __awaiter(this, void 0, void 0, function () {
-            var temperaturSensoren, sensor, temperatur, fensterSensorName, response;
+            var temperaturSensoren, sensor, temperatur, fensterSensorName;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -52,22 +85,12 @@ var SmartHome = /** @class */ (function () {
                         sensor = [];
                         temperatur = 23;
                         fensterSensorName = "fensterkontakt-".concat(name);
-                        return [4 /*yield*/, fetch('http://localhost:8000/window_sensors/', {
-                                method: 'POST',
-                                mode: 'cors',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify({ name: fensterSensorName, room_name: name })
-                            })];
+                        return [4 /*yield*/, this.addWindowSensor(name, fensterSensorName)];
                     case 1:
-                        response = _a.sent();
-                        if (!response.ok) {
-                            alert("Fehler beim Erstellen des Fensterkontakts.");
-                        }
-                        console.log("Vor dem Hinzufügen:", this.raumListe);
+                        _a.sent();
+                        console.log("Vor dem Hinzuf\u00FCgen:", this.raumListe);
                         this.raumListe.push({ name: name, temperaturSensoren: temperaturSensoren, temperatur: temperatur, sensor: sensor });
-                        console.log("Nach dem Hinzufügen:", this.raumListe);
+                        console.log("Nach dem Hinzuf\u00FCgen:", this.raumListe);
                         this.render();
                         return [2 /*return*/];
                 }
@@ -99,7 +122,6 @@ var SmartHome = /** @class */ (function () {
                             raum.temperaturSensoren.push(data.sensor_name); // Den neuen Sensor in die Liste hinzufügen
                             raum.sensor.push(data.sensor_name); // Optional: Sensor auch in der allgemeinen Sensorliste speichern
                             this.render(); // Die Ansicht aktualisieren
-                            console.log("sensor gepusht");
                         }
                         return [3 /*break*/, 4];
                     case 3:
